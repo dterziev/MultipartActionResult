@@ -33,6 +33,22 @@ public IActionResult GetMultipartContent()
             ))
     });
 }
+
+private static IHeaderDictionary GetHeaders(string contentType, string fileName)
+{
+    IHeaderDictionary result = new HeaderDictionary();
+
+    var contentDisposition = new ContentDispositionHeaderValue("attachment");
+    contentDisposition.SetHttpFileName(fileName);
+    result[HeaderNames.ContentDisposition] = contentDisposition.ToString();
+
+    result[HeaderNames.ContentType] = new MediaTypeHeaderValue(contentType)
+    {
+        Charset = "utf-8"
+    }.ToString();
+
+    return result;
+}
 ```
 
 The resulting HTTP message is:
