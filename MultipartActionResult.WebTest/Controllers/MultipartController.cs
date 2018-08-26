@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
@@ -69,9 +70,27 @@ namespace MultipartActionResult.TestProject.Controllers
             return this.Multipart(new[] { result, closedStreamResult });
         }
 
+        [HttpGet("example")]
+        public IActionResult Example()
+        {
+            return this.Multipart(new[]
+            {
+                Task.FromResult<(IHeaderDictionary, Stream)>(
+                    (
+                        GetHeaders("text/plain", "file1.txt"),
+                        new MemoryStream(Encoding.UTF8.GetBytes("Some text content"))
+                    )),
+                Task.FromResult<(IHeaderDictionary, Stream)>(
+                    (
+                        GetHeaders("text/csv", "file2.csv"),
+                        new MemoryStream(Encoding.UTF8.GetBytes("A,B\r\n1,2\r\n"))
+                    ))
+            });
+        }
+
         private static IHeaderDictionary GetHeaders(string contentType, string fileName)
         {
-            var result = new HeaderDictionary();
+            IHeaderDictionary result = new HeaderDictionary();
 
             var contentDisposition = new ContentDispositionHeaderValue("attachment");
             contentDisposition.SetHttpFileName(fileName);
