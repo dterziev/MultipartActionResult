@@ -6,21 +6,20 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
-using MultipartActionResult.TestProject;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace MultipartActionResult.Tests
 {
-    public class MultipartActionResultIntegrationTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class MultipartActionResultIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
-        private readonly WebApplicationFactory<Startup> _factory;
+        private readonly WebApplicationFactory<Program> _factory;
         private ITestOutputHelper Out { get; }
 
         public MultipartActionResultIntegrationTests(
             ITestOutputHelper testOutput,
-            WebApplicationFactory<Startup> factory)
+            WebApplicationFactory<Program> factory)
         {
             Out = testOutput;
 
