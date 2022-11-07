@@ -1,13 +1,7 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace MultipartActionResult.Tests
 {
@@ -15,14 +9,10 @@ namespace MultipartActionResult.Tests
     {
         private readonly HttpClient _client;
         private readonly WebApplicationFactory<Program> _factory;
-        private ITestOutputHelper Out { get; }
 
         public MultipartActionResultIntegrationTests(
-            ITestOutputHelper testOutput,
             WebApplicationFactory<Program> factory)
         {
-            Out = testOutput;
-
             _factory = factory;
             _client = _factory.CreateClient(new WebApplicationFactoryClientOptions
             {
@@ -53,9 +43,9 @@ namespace MultipartActionResult.Tests
             {
                 HttpContent content = contents[i];
 
-                Assert.Equal("text/plain", content.Headers.ContentType.MediaType);
+                Assert.Equal("text/plain", content.Headers.ContentType!.MediaType);
                 Assert.Equal("utf-8", content.Headers.ContentType.CharSet);
-                Assert.Equal("attachment", content.Headers.ContentDisposition.DispositionType);
+                Assert.Equal("attachment", content.Headers.ContentDisposition!.DispositionType);
                 Assert.Equal($"file{i + 1}.txt", content.Headers.ContentDisposition.FileName);
                 Assert.Equal($"here is content{i + 1}", await content.ReadAsStringAsync());
             }
@@ -71,8 +61,8 @@ namespace MultipartActionResult.Tests
 
             // Act
             var multipartResponse = await _client.GetAsync($"/api/multipart/{testCase}", HttpCompletionOption.ResponseHeadersRead);
-            await Assert.ThrowsAsync<IOException>(() => 
-                multipartResponse.Content.ReadAsMultipartAsync(streamProvider)
+            _ = await Assert.ThrowsAsync<IOException>(() =>
+                multipartResponse.Content.ReadAsMultipartAsync(streamProvider!)
             );
 
             // Assert

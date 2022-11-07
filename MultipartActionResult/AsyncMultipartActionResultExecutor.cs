@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -9,6 +6,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace MultipartActionResult
 {
+#pragma warning disable IDE0058 // Expression value is never used
     public class AsyncMultipartActionResultExecutor : IActionResultExecutor<AsyncMultipartActionResult>
     {
         private const string CrLf = "\r\n";
@@ -79,9 +77,9 @@ namespace MultipartActionResult
             foreach (var headerPair in headers)
             {
                 scratch.Append(headerPair.Key);
+
                 scratch.Append(": ");
                 string delim = string.Empty;
-                var s = headerPair.Value;
                 foreach (var value in headerPair.Value)
                 {
                     scratch.Append(delim);
@@ -97,4 +95,5 @@ namespace MultipartActionResult
             return scratch.ToString();
         }
     }
+#pragma warning restore IDE0058 // Expression value is never used
 }

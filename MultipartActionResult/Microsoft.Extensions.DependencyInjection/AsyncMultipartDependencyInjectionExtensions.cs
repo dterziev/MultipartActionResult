@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
-using MultipartActionResult;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace MultipartActionResult.Microsoft.Extensions.DependencyInjection
 {
     public static class AsyncMultipartDependencyInjectionExtensions
     {
-        public static void AddMultipartSupport(this IServiceCollection services)
+        public static IServiceCollection AddMultipartSupport(this IServiceCollection services)
         {
-            services.AddSingleton<IActionResultExecutor<AsyncMultipartActionResult>>(new AsyncMultipartActionResultExecutor());
+            return services
+                .AddSingleton<IActionResultExecutor<AsyncMultipartActionResult>>(
+                    new AsyncMultipartActionResultExecutor());
         }
     }
 }

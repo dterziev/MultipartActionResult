@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2003
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultipartActionResult.WebTest", "MultipartActionResult.WebTest\MultipartActionResult.WebTest.csproj", "{DD4B0C28-E292-4E24-BA09-34C8FCBB3D6A}"
 EndProject
@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultipartActionResult.Tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7ECE7EF2-7D5C-4CA6-815E-0094956800DE}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.build.props = Directory.build.props
+		Directory.packages.props = Directory.packages.props
+		LICENSE = LICENSE
+		nuget.config = nuget.config
 		README.md = README.md
 	EndProjectSection
 EndProject

@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace SampleClient
+﻿namespace SampleClient
 {
     class Program
     {
