@@ -1,45 +1,44 @@
-﻿namespace SampleClient
+﻿namespace SampleClient;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        MainAsync(args).ConfigureAwait(false).GetAwaiter().GetResult();
+    }
+
+    static async Task MainAsync(string[] args)
+    {
+        HttpClient httpClient = new HttpClient();
+        var response = await httpClient.GetAsync(
+            "http://localhost:19701/api/multipart/example",
+            HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+
+        var tempFolder = Path.Combine(Path.GetTempPath(), $"multipart_{Guid.NewGuid()}");
+
+        try
         {
-            MainAsync(args).ConfigureAwait(false).GetAwaiter().GetResult();
-        }
+            Directory.CreateDirectory(tempFolder);
 
-        static async Task MainAsync(string[] args)
-        {
-            HttpClient httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(
-                "http://localhost:19701/api/multipart/example",
-                HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+            var results = await response.Content.ReadAsMultipartAsync(
+                new MultipartFileStreamProvider(tempFolder)).ConfigureAwait(false);
 
-            var tempFolder = Path.Combine(Path.GetTempPath(), $"multipart_{Guid.NewGuid()}");
-
-            try
+            foreach (var fileData in results.FileData)
             {
-                Directory.CreateDirectory(tempFolder);
-
-                var results = await response.Content.ReadAsMultipartAsync(
-                    new MultipartFileStreamProvider(tempFolder)).ConfigureAwait(false);
-
-                foreach (var fileData in results.FileData)
+                Console.WriteLine($"Local file: {fileData.LocalFileName}");
+                foreach (var header in fileData.Headers)
                 {
-                    Console.WriteLine($"Local file: {fileData.LocalFileName}");
-                    foreach (var header in fileData.Headers)
-                    {
-                        Console.WriteLine($"{header.Key}: {String.Join(",", header.Value)}");
-                    }
-
-                    Console.WriteLine("-------------------------------------");
+                    Console.WriteLine($"{header.Key}: {String.Join(",", header.Value)}");
                 }
+
+                Console.WriteLine("-------------------------------------");
             }
-            finally
+        }
+        finally
+        {
+            if (Directory.Exists(tempFolder))
             {
-                if (Directory.Exists(tempFolder))
-                {
-                    Directory.Delete(tempFolder, true);
-                }
+                Directory.Delete(tempFolder, true);
             }
         }
     }

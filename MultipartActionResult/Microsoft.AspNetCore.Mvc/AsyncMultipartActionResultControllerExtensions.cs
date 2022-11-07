@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using MultipartActionResult;
 
-namespace Microsoft.AspNetCore.Mvc
+namespace Microsoft.AspNetCore.Mvc;
+
+public static class AsyncMultipartActionResultControllerExtensions
 {
-    public static class AsyncMultipartActionResultControllerExtensions
+    public static AsyncMultipartActionResult Multipart(
+        this ControllerBase controller,
+        IEnumerable<Task<(IHeaderDictionary headers, Stream contentStream)>> contents)
     {
-        public static AsyncMultipartActionResult Multipart(
-            this ControllerBase controller,
-            IEnumerable<Task<(IHeaderDictionary headers, Stream contentStream)>> contents)
-        {
-            return new AsyncMultipartActionResult(contents);
-        }
+        return new AsyncMultipartActionResult(contents);
     }
 }

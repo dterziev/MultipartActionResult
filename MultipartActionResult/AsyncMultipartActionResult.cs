@@ -3,31 +3,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MultipartActionResult
+namespace MultipartActionResult;
+
+public class AsyncMultipartActionResult : IActionResult
 {
-    public class AsyncMultipartActionResult : IActionResult
+    public AsyncMultipartActionResult(
+        IEnumerable<Task<(IHeaderDictionary headers, Stream contentStream)>> contents)
     {
-        public AsyncMultipartActionResult(
-            IEnumerable<Task<(IHeaderDictionary headers, Stream contentStream)>> contents)
+        Contents = contents;
+    }
+
+    public IEnumerable<Task<(IHeaderDictionary headers, Stream contentStream)>> Contents { get; }
+
+    public Task ExecuteResultAsync(ActionContext context)
+    {
+        if (context == null)
         {
-            Contents = contents;
+            throw new ArgumentNullException(nameof(context));
         }
 
-        public IEnumerable<Task<(IHeaderDictionary headers, Stream contentStream)>> Contents { get; }
+        var executor = context
+            .HttpContext
+            .RequestServices
+            .GetRequiredService<IActionResultExecutor<AsyncMultipartActionResult>>();
 
-        public Task ExecuteResultAsync(ActionContext context)
-        {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var executor = context
-                .HttpContext
-                .RequestServices
-                .GetRequiredService<IActionResultExecutor<AsyncMultipartActionResult>>();
-
-            return executor.ExecuteAsync(context, this);
-        }
+        return executor.ExecuteAsync(context, this);
     }
 }
