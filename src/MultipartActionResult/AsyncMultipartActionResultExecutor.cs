@@ -6,7 +6,6 @@ using Microsoft.Net.Http.Headers;
 
 namespace MultipartActionResult;
 
-#pragma warning disable IDE0058 // Expression value is never used
 public class AsyncMultipartActionResultExecutor : IActionResultExecutor<AsyncMultipartActionResult>
 {
     private const string CrLf = "\r\n";
@@ -95,4 +94,3 @@ public class AsyncMultipartActionResultExecutor : IActionResultExecutor<AsyncMul
         return scratch.ToString();
     }
 }
-#pragma warning restore IDE0058 // Expression value is never used

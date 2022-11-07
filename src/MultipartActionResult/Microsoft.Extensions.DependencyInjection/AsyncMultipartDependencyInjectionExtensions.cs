@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using MultipartActionResult;
 
-namespace MultipartActionResult.Microsoft.Extensions.DependencyInjection;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class AsyncMultipartDependencyInjectionExtensions
 {
