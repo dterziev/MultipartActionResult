@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MultipartActionResult\MultipartActionResult.csproj" />
+    <ProjectReference Include="..\..\src\MultipartActionResult\MultipartActionResult.csproj" />
   </ItemGroup>
 
 </Project>
