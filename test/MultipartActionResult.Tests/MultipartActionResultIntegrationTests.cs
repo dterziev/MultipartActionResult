@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using System.Net;
-using System.Net.Http.Headers;
-using Xunit;
-
-namespace MultipartActionResult.Tests;
+﻿namespace MultipartActionResult.Tests;
 
 public class MultipartActionResultIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 {

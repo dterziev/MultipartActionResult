@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
-namespace MultipartActionResult.TestProject.Controllers;
+namespace MultipartActionResult.WebTest.Controllers;
 
 [Route("api/multipart")]
 public class MultipartController : Controller
